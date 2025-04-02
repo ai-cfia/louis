@@ -1,3 +1,9 @@
 [submodule "open-webui"]
 	path = open-webui
 	url = https://github.com/ai-cfia/open-webui.git
+[submodule "gpt-researcher"]
+	path = gpt-researcher
+	url = https://github.com/ai-cfia/gpt-researcher.git
+[submodule "litellm"]
+	path = litellm
+	url = https://github.com/ai-cfia/litellm
