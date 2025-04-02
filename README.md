@@ -26,8 +26,98 @@ git pull origin main
 cd ..
 git add open-webui
 git commit -m "Update Open WebUI submodule to latest version"
+git push
 ```
 
 ## Custom Configurations
 
 Custom configurations and extensions specific to the Louis project should be stored in this repository outside the submodule.
+
+## Working with the Open WebUI Submodule
+
+There are several approaches for managing customizations to the Open WebUI submodule:
+
+### Approach 1: Fork and Customize the Submodule (Recommended)
+
+1. **Fork the Open WebUI repository** on GitHub to your own account or organization
+2. **Update the submodule to point to your fork**:
+   ```bash
+   git submodule set-url open-webui https://github.com/your-org/open-webui-fork.git
+   ```
+3. **Making changes to your fork**:
+   ```bash
+   # Navigate into the submodule
+   cd open-webui
+   
+   # Create a branch for your customizations
+   git checkout -b custom-features
+   
+   # Make changes, commit them
+   git add .
+   git commit -m "Add custom features"
+   
+   # Push to your fork
+   git push origin custom-features
+   ```
+4. **Update the parent repository**:
+   ```bash
+   cd ..
+   git add open-webui
+   git commit -m "Update submodule to use custom branch"
+   git push
+   ```
+
+### Approach 2: Branch Within the Submodule
+
+1. **Navigate into the submodule**:
+   ```bash
+   cd open-webui
+   ```
+2. **Create a branch for your customizations**:
+   ```bash
+   git checkout -b custom-features
+   ```
+3. **Make changes, commit them locally**
+4. **Reference the specific branch in your parent repository**
+
+### Approach 3: Overlay Approach
+
+1. Keep the original submodule intact (no changes)
+2. Create custom code in the parent repository that extends/overrides functionality
+3. Configure your application to load these customizations
+
+For example:
+- Create a `custom-extensions/` directory in your parent repo
+- Set up Docker volumes to overlay your custom files
+- Use environment variables to load your custom extensions
+
+### Keeping Up with Upstream Changes
+
+To incorporate updates from the original Open WebUI repository:
+
+1. **Add the original repo as a remote in your submodule**:
+   ```bash
+   cd open-webui
+   git remote add upstream https://github.com/open-webui/open-webui.git
+   ```
+
+2. **Fetch updates**:
+   ```bash
+   git fetch upstream
+   ```
+
+3. **Merge upstream changes into your branch**:
+   ```bash
+   git checkout custom-features
+   git merge upstream/main
+   # Resolve any conflicts
+   git push origin custom-features
+   ```
+
+4. **Update the parent repository**:
+   ```bash
+   cd ..
+   git add open-webui
+   git commit -m "Update submodule with latest upstream changes"
+   git push
+   ```
