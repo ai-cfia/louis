@@ -2,7 +2,7 @@ version: '3'
 
 services:
   open-webui:
-    image: ghcr.io/open-webui/open-webui:main
+    image: ghcr.io/ai-cfia/open-webui:latest
     restart: always
     ports:
       - "3000:8080"
@@ -10,11 +10,13 @@ services:
       - open-webui-data:/app/backend/data
     environment:
       - OLLAMA_BASE_URL=http://ollama:11434
+      - LITELLM_URL=http://litellm:8000
       # Add any custom environment variables here
     networks:
       - ai-network
     depends_on:
       - ollama
+      - litellm
 
   ollama:
     image: ollama/ollama:latest
@@ -24,10 +26,35 @@ services:
     networks:
       - ai-network
 
+  litellm:
+    image: ghcr.io/ai-cfia/litellm:latest
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+      # Add LiteLLM configuration here
+    networks:
+      - ai-network
+
+  gpt-researcher:
+    image: ghcr.io/ai-cfia/gpt-researcher:latest
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      # Add environment variables for GPT Researcher here
+      - PORT=8080
+    networks:
+      - ai-network
+    depends_on:
+      - litellm
+
 networks:
   ai-network:
     driver: bridge
 
 volumes:
   open-webui-data:
-  ollama-data: 
+  ollama-data:
+ 

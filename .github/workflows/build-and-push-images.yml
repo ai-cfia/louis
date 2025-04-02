@@ -1,0 +1,76 @@
+name: Build and Push Submodule Images
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/build-and-push-images.yml'
+      - 'gpt-researcher/**'
+      - 'litellm/**'
+      - 'open-webui/**'
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  OWNER: ai-cfia
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    strategy:
+      matrix:
+        submodule: [gpt-researcher, litellm, open-webui]
+        include:
+          - submodule: gpt-researcher
+            context: ./gpt-researcher
+          - submodule: litellm
+            context: ./litellm
+          - submodule: open-webui
+            context: ./open-webui
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get submodule commit hash
+        id: submodule
+        run: |
+          cd ${{ matrix.context }}
+          COMMIT_HASH=$(git rev-parse --short HEAD)
+          echo "COMMIT_HASH=$COMMIT_HASH" >> $GITHUB_OUTPUT
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ matrix.submodule }}
+          tags: |
+            type=raw,value=latest
+            type=raw,value=${{ steps.submodule.outputs.COMMIT_HASH }}
+            type=sha
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: ${{ matrix.context }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max 

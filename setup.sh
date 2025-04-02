@@ -29,4 +29,4 @@ fi
 echo "Starting services with Docker Compose..."
 docker-compose up -d
 
-echo "Setup complete! Open WebUI should be available at http://localhost:3000" 
+echo "Setup complete! Open WebUI should be available at http://localhost:3000"
