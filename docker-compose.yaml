@@ -40,8 +40,9 @@ services:
   gpt-researcher-mcp:
     image: ghcr.io/ai-cfia/louis/gpt-researcher-mcp:louis-main
     restart: always
-    ports:
-      - "8080:8000"
+    # Remove direct port exposure since we'll access it through MCPO
+    # ports:
+    #   - "8080:8000"
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - TAVILY_API_KEY=${TAVILY_API_KEY}
@@ -50,6 +51,21 @@ services:
       - ai-network
     depends_on:
       - litellm
+
+  mcpo-proxy:
+    build:
+      context: ./deployment/mcpo-proxy
+    restart: always
+    ports:
+      - "8080:8080"
+    command: >
+      --port 8080 --proxy http://gpt-researcher-mcp:8000
+    environment:
+      - MCP_TARGET_URL=http://gpt-researcher-mcp:8000
+    networks:
+      - ai-network
+    depends_on:
+      - gpt-researcher-mcp
 
 networks:
   ai-network:
