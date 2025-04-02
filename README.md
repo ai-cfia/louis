@@ -127,18 +127,17 @@ To incorporate updates from the original Open WebUI repository:
 This repository builds and pushes Docker images for the included submodules to GitHub Container Registry (GHCR). These images are built automatically when changes are made to the submodules.
 
 Available images:
-- `ghcr.io/ai-cfia/gpt-researcher:latest` - The GPT Researcher service
-- `ghcr.io/ai-cfia/litellm:latest` - The LiteLLM service
-- `ghcr.io/ai-cfia/open-webui:latest` - The Open WebUI service
+- `ghcr.io/ai-cfia/louis/gpt-researcher-mcp:louis-main` - The GPT Researcher MCP Server (custom build)
+- `ghcr.io/ai-cfia/louis/litellm:louis-main` - The LiteLLM service
+- `ghcr.io/ai-cfia/louis/open-webui:louis-main` - The Open WebUI service
 
 Each image is tagged with:
-- `latest` - Most recent build
-- The short commit hash of the submodule (e.g., `ghcr.io/ai-cfia/gpt-researcher:a1b2c3d`)
-- The GitHub SHA of the main repository commit that triggered the build
+- `louis-main` - Most recent build from main branch
+- `louis-{commit}` - Tagged with the short commit hash of the submodule (e.g., `ghcr.io/ai-cfia/louis/gpt-researcher-mcp:louis-a1b2c3d`)
 
 To pull an image:
 ```
-docker pull ghcr.io/ai-cfia/gpt-researcher:latest
+docker pull ghcr.io/ai-cfia/louis/litellm:louis-main
 ```
 
 To use these images in your deployment, update your docker-compose.yml to reference these pre-built images instead of building them locally.

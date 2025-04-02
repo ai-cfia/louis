@@ -8,11 +8,13 @@ on:
       - 'gpt-researcher/**'
       - 'litellm/**'
       - 'open-webui/**'
+      - 'deployment/**'
   workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
-  OWNER: ai-cfia
+  NAMESPACE: ai-cfia
+  REPO: louis
 
 jobs:
   build-and-push:
@@ -23,14 +25,16 @@ jobs:
 
     strategy:
       matrix:
-        submodule: [gpt-researcher, litellm, open-webui]
         include:
-          - submodule: gpt-researcher
-            context: ./gpt-researcher
           - submodule: litellm
             context: ./litellm
+            dockerfile: ./litellm/Dockerfile
           - submodule: open-webui
             context: ./open-webui
+            dockerfile: ./open-webui/Dockerfile
+          - submodule: gpt-researcher-mcp
+            context: .
+            dockerfile: ./deployment/gpt-researcher-mcp/Dockerfile
 
     steps:
       - name: Checkout repository
@@ -51,24 +55,29 @@ jobs:
       - name: Get submodule commit hash
         id: submodule
         run: |
-          cd ${{ matrix.context }}
-          COMMIT_HASH=$(git rev-parse --short HEAD)
+          if [[ "${{ matrix.submodule }}" == "gpt-researcher-mcp" ]]; then
+            cd gpt-researcher
+            COMMIT_HASH=$(git rev-parse --short HEAD)
+          else
+            cd ${{ matrix.context }}
+            COMMIT_HASH=$(git rev-parse --short HEAD)
+          fi
           echo "COMMIT_HASH=$COMMIT_HASH" >> $GITHUB_OUTPUT
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ matrix.submodule }}
+          images: ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.REPO }}/${{ matrix.submodule }}
           tags: |
-            type=raw,value=latest
-            type=raw,value=${{ steps.submodule.outputs.COMMIT_HASH }}
-            type=sha
+            type=raw,value=louis-main
+            type=raw,value=louis-${{ steps.submodule.outputs.COMMIT_HASH }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
           context: ${{ matrix.context }}
+          file: ${{ matrix.dockerfile }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

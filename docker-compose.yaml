@@ -2,7 +2,7 @@ version: '3'
 
 services:
   open-webui:
-    image: ghcr.io/ai-cfia/open-webui:latest
+    image: ghcr.io/ai-cfia/louis/open-webui:louis-main
     restart: always
     ports:
       - "3000:8080"
@@ -27,7 +27,7 @@ services:
       - ai-network
 
   litellm:
-    image: ghcr.io/ai-cfia/litellm:latest
+    image: ghcr.io/ai-cfia/louis/litellm:louis-main
     restart: always
     ports:
       - "8000:8000"
@@ -37,14 +37,15 @@ services:
     networks:
       - ai-network
 
-  gpt-researcher:
-    image: ghcr.io/ai-cfia/gpt-researcher:latest
+  gpt-researcher-mcp:
+    image: ghcr.io/ai-cfia/louis/gpt-researcher-mcp:louis-main
     restart: always
     ports:
-      - "8080:8080"
+      - "8080:8000"
     environment:
-      # Add environment variables for GPT Researcher here
-      - PORT=8080
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - TAVILY_API_KEY=${TAVILY_API_KEY}
+      # Add other environment variables for GPT Researcher MCP here
     networks:
       - ai-network
     depends_on:
