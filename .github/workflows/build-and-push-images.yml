@@ -35,6 +35,9 @@ jobs:
           - submodule: gpt-researcher-mcp
             context: .
             dockerfile: ./deployment/gpt-researcher-mcp/Dockerfile
+          - submodule: mcp-bridge
+            context: .
+            dockerfile: ./deployment/mcp-bridge/Dockerfile
 
     steps:
       - name: Checkout repository

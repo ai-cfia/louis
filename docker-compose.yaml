@@ -40,7 +40,7 @@ services:
   gpt-researcher-mcp:
     image: ghcr.io/ai-cfia/louis/gpt-researcher-mcp:louis-main
     restart: always
-    # Remove direct port exposure since we'll access it through MCPO
+    # Remove direct port exposure since we'll access it through MCP-Bridge
     # ports:
     #   - "8080:8000"
     environment:
@@ -52,20 +52,21 @@ services:
     depends_on:
       - litellm
 
-  mcpo-proxy:
+  mcp-bridge:
     build:
-      context: ./deployment/mcpo-proxy
+      context: ./deployment/mcp-bridge
     restart: always
     ports:
       - "8080:8080"
-    command: >
-      --port 8080 --proxy http://gpt-researcher-mcp:8000
+    volumes:
+      - ./deployment/mcp-bridge/config.json:/app/config.json
     environment:
-      - MCP_TARGET_URL=http://gpt-researcher-mcp:8000
+      - MCP_BRIDGE__CONFIG__FILE=/app/config.json
     networks:
       - ai-network
     depends_on:
       - gpt-researcher-mcp
+      - litellm
 
 networks:
   ai-network:
