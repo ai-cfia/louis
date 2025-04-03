@@ -42,3 +42,4 @@ docker-volumes/
 # Logs
 logs/
 *.log
+.cursor/
