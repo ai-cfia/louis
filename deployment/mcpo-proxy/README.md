@@ -2,6 +2,8 @@
 
 This service provides an OpenAPI-compatible HTTP proxy for the GPT Researcher MCP server, making it accessible to Open WebUI.
 
+We are using MCP Bridge instead since MCPO Proxy only works with stdio
+
 ## Overview
 
 MCPO (Model Context Protocol to OpenAPI) is a proxy that converts MCP servers to OpenAPI-compatible HTTP servers. This allows Open WebUI to interact with MCP-based services like GPT Researcher.

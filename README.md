@@ -5,6 +5,7 @@ This repository contains the Louis project, which is built on top of Open WebUI.
 ## Structure
 
 - `open-webui/` - Submodule containing the Open WebUI project
+- `deployment/mcp-bridge/` - MCP-Bridge configuration for connecting to MCP tools
 - Custom configurations and extensions for Open WebUI
 
 ## Setup
@@ -141,3 +142,9 @@ docker pull ghcr.io/ai-cfia/louis/litellm:louis-main
 ```
 
 To use these images in your deployment, update your docker-compose.yml to reference these pre-built images instead of building them locally.
+
+## MCP Tools Integration
+
+This project uses [MCP-Bridge](https://github.com/SecretiveShell/MCP-Bridge) to provide OpenAI API compatibility for MCP (Model Context Protocol) tools. MCP-Bridge connects to the GPT Researcher MCP server and makes these tools available through a standard OpenAI API endpoint.
+
+The MCP-Bridge configuration is located in the `deployment/mcp-bridge` directory. See the README in that directory for more information on customizing the MCP-Bridge configuration.
