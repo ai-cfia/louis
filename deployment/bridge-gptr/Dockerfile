@@ -52,9 +52,11 @@ WORKDIR /app
 
 # Copy startup script and config
 COPY deployment/bridge-gptr/start.sh /app/
-# COPY config.json /app/mcp-bridge/
+
+USER root
 RUN chmod +x /app/start.sh
 
+USER appuser
 # Expose ports for both services
 EXPOSE 8000 8080
 
