@@ -52,7 +52,7 @@ WORKDIR /app
 
 # Copy startup script and config
 COPY start.sh /app/
-COPY config.json /app/mcp-bridge/
+# COPY config.json /app/mcp-bridge/
 RUN chmod +x /app/start.sh
 
 # Expose ports for both services
