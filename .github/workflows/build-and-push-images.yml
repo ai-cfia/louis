@@ -38,6 +38,9 @@ jobs:
           - submodule: mcp-bridge
             context: .
             dockerfile: ./deployment/mcp-bridge/Dockerfile
+          - submodule: bridge-gptr
+            context: .
+            dockerfile: ./deployment/bridge-gptr/Dockerfile
 
     steps:
       - name: Checkout repository
