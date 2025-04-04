@@ -1,0 +1,70 @@
+name: Build MCP Bridge Image
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'deployment/mcp-bridge/**'
+      - '.github/workflows/build-mcp-bridge.yml'
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  NAMESPACE: ai-cfia
+  REPO: louis
+
+jobs:
+  build-mcp-bridge:
+    name: Build mcp-bridge
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get commit hash
+        id: commit
+        run: |
+          COMMIT_HASH=$(git rev-parse --short HEAD)
+          echo "COMMIT_HASH=$COMMIT_HASH" >> $GITHUB_OUTPUT
+
+      - name: Extract metadata for Docker
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.REPO }}/mcp-bridge
+          tags: |
+            type=raw,value=louis-main
+            type=raw,value=louis-${{ steps.commit.outputs.COMMIT_HASH }}
+
+      - name: Build and push Docker image
+        id: build-push
+        continue-on-error: false
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./deployment/mcp-bridge/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Check build status
+        if: steps.build-push.outcome == 'failure'
+        run: |
+          echo "⚠️ mcp-bridge build failed but workflow will continue" 
