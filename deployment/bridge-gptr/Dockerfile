@@ -51,7 +51,7 @@ USER appuser
 WORKDIR /app
 
 # Copy startup script and config
-COPY start.sh /app/
+COPY deployment/bridge-gptr/start.sh /app/
 # COPY config.json /app/mcp-bridge/
 RUN chmod +x /app/start.sh
 
