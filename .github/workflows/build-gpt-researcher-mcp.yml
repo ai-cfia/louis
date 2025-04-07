@@ -5,6 +5,7 @@ on:
     branches: [ main ]
     paths:
       - 'gpt-researcher/**'
+      - '.gitmodules'
       - 'deployment/gpt-researcher-mcp/**'
       - '.github/workflows/build-gpt-researcher-mcp.yml'
   workflow_dispatch:

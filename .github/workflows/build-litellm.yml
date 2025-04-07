@@ -5,6 +5,7 @@ on:
     branches: [ main ]
     paths:
       - 'litellm/**'
+      - '.gitmodules'
       - '.github/workflows/build-litellm.yml'
   workflow_dispatch:
 

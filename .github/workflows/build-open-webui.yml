@@ -5,6 +5,7 @@ on:
     branches: [ main ]
     paths:
       - 'open-webui/**'
+      - '.gitmodules'
       - '.github/workflows/build-open-webui.yml'
   workflow_dispatch:
 
