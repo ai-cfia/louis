@@ -2,7 +2,7 @@ version: '3'
 
 services:
   bridge-gptr:
-    build: .
+    image: ghcr.io/ai-cfia/louis/bridge-gptr:louis-f2c8196
     ports:
       - "8080:8080"
       - "8000:8000"
