@@ -48,10 +48,10 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.REPO }}/open-webui
+          images: ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.REPO }}
           tags: |
-            type=raw,value=louis-main
-            type=raw,value=louis-${{ steps.submodule.outputs.COMMIT_HASH }}
+            type=raw,value=open-webui-louis-main
+            type=raw,value=open-webui-louis-${{ steps.submodule.outputs.COMMIT_HASH }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4

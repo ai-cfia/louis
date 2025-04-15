@@ -49,10 +49,10 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.REPO }}/mcpo-gptr
+          images: ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.REPO }}
           tags: |
-            type=raw,value=louis-main
-            type=raw,value=louis-${{ steps.submodule.outputs.COMMIT_HASH }}
+            type=raw,value=mcpo-gptr-louis-main
+            type=raw,value=mcpo-gptr-louis-${{ steps.submodule.outputs.COMMIT_HASH }}
 
       - name: Build and push Docker image
         id: build-push
