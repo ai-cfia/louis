@@ -7,3 +7,6 @@
 [submodule "litellm"]
 	path = litellm
 	url = https://github.com/ai-cfia/litellm
+[submodule "servers"]
+	path = servers
+	url = https://github.com/modelcontextprotocol/servers.git
