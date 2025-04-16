@@ -14,6 +14,7 @@ COPY gpt-researcher/mcp-server/* /app/mcp-server/
 COPY deployment/mcpo-gptr/uv.lock /app/
 COPY deployment/mcpo-gptr/pyproject.toml /app/
 COPY semanticworkbench/mcp-servers/mcp-server-bing-search /app/
+COPY semanticworkbench/libraries/python/mcp-extensions /app/libraries/python/
 
 RUN ls -la
 
