@@ -3,11 +3,6 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 WORKDIR /app
 
-# Create a non-root user to run the application
-RUN adduser --disabled-password --gecos "" appuser
-RUN chown -R appuser:appuser /app
-USER appuser
-
 ENV UV_NO_CACHE=1 \
 UV_COMPILE_BYTECODE=1
 
@@ -24,6 +19,11 @@ RUN ls -la
 
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --frozen
+
+# Create a non-root user to run the application
+RUN adduser --disabled-password --gecos "" appuser
+RUN chown -R appuser:appuser /app
+USER appuser
 
 # Set working directory to the MCP server directory
 # WORKDIR /app/mcp-server
