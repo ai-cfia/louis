@@ -10,3 +10,6 @@
 [submodule "servers"]
 	path = servers
 	url = https://github.com/modelcontextprotocol/servers.git
+[submodule "MCP-Bridge"]
+	path = MCP-Bridge
+	url = https://github.com/SecretiveShell/MCP-Bridge.git
