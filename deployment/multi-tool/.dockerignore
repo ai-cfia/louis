@@ -1,0 +1,7 @@
+# Example .dockerignore file
+.git/
+node_modules/
+**/tests/
+**/temp/
+**/__pycache__/
+.venv/
