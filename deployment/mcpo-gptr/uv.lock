@@ -1213,7 +1213,7 @@ cli = [
 [[package]]
 name = "mcp-extensions"
 version = "0.1.0"
-source = { editable = "../../semanticworkbench/libraries/python/mcp-extensions" }
+source = { editable = "libraries/python/mcp-extensions" }
 dependencies = [
     { name = "deepmerge" },
     { name = "mcp" },
@@ -1325,7 +1325,7 @@ requires-dist = [
     { name = "loguru", specifier = ">=0.7.0" },
     { name = "markitdown", specifier = "==0.1.1" },
     { name = "mcp", extras = ["cli"], specifier = ">=1.6.0" },
-    { name = "mcp-extensions", extras = ["llm", "openai"], editable = "../../semanticworkbench/libraries/python/mcp-extensions" },
+    { name = "mcp-extensions", extras = ["llm", "openai"], editable = "libraries/python/mcp-extensions" },
     { name = "mcp-server-fetch", specifier = ">=2025.1.17" },
     { name = "mcp-server-time", specifier = ">=0.6.2" },
     { name = "mcpo", specifier = ">=0.0.9" },
