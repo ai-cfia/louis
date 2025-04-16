@@ -13,3 +13,6 @@
 [submodule "MCP-Bridge"]
 	path = MCP-Bridge
 	url = https://github.com/SecretiveShell/MCP-Bridge.git
+[submodule "semanticworkbench"]
+	path = semanticworkbench
+	url = https://github.com/microsoft/semanticworkbench.git
