@@ -1,4 +1,4 @@
-FROM python:3.11-slim
+FROM python:3.12-slim
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 WORKDIR /app
@@ -18,14 +18,9 @@ RUN mkdir -p /app/mcp-server
 COPY gpt-researcher/mcp-server/* /app/mcp-server/
 COPY deployment/mcpo-gptr/uv.lock /app/
 COPY deployment/mcpo-gptr/pyproject.toml /app/
+COPY semanticworkbench/mcp-servers/mcp-server-bing-search /app/
 
 RUN ls -la
-# RUN pip install --no-cache-dir -r /app/mcp-server/requirements.txt    
-# RUN uv init --no-workspace && uv venv && uv pip install -r /app/requirements.txt
-RUN --mount=type=cache,target=/root/.cache/uv \
-    # --mount=type=bind,source=deployment/mcpo-gptr/uv.lock,target=/app/uv.lock \
-    # --mount=type=bind,source=deployment/mcpo-gptr/pyproject.toml,target=/app/pyproject.toml \
-    uv sync --frozen --no-install-project
 
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --frozen
@@ -39,4 +34,6 @@ EXPOSE 8000
 
 # Command will be provided via docker-compose
 # uvx mcpo --port 8000 -- uv run --with mcp mcp run server.py
-ENTRYPOINT ["uv", "run", "mcpo", "--port", "8000", "--", "uv", "run", "mcp", "run", "/app/mcp-server/server.py"]
+# ENTRYPOINT ["uv", "run", "mcpo", "--port", "8000", "--", "uv", "run", "mcp", "run", "/app/mcp-server/server.py"]
+# ENTRYPOINT ["uv", "run", "mcpo", "--port", "8000", "--config", "/app/mcpo-gptr/config.yaml"]
+ENTRYPOINT ["/app/start.sh"]
