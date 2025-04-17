@@ -6,6 +6,10 @@ WORKDIR /app
 ENV UV_NO_CACHE=1 \
 UV_COMPILE_BYTECODE=1
 
+# Install npx to run stdio clients (npx)
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+RUN apt-get update && apt-get install -y --no-install-recommends nodejs
+
 # Create directories for the application
 RUN mkdir -p /app/mcp-server
 
