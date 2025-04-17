@@ -19,8 +19,4 @@ dependencies = [
     "tiktoken>=0.9.0,<1.0",
     "mcp-server-fetch>=2025.1.17",
     "mcp-server-time>=0.6.2",
-    "mcp-extensions[llm,openai]>=0.1.0",
 ]
-
-[tool.uv.sources]
-mcp-extensions = { path = "/app/libraries/python/mcp-extensions", editable = true }
