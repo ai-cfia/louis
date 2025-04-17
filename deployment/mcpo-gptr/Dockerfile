@@ -19,7 +19,7 @@ COPY deployment/mcpo-gptr/libraries/python/mcp-extensions /app/libraries/python/
 RUN ls -la
 
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --frozen
+    uv sync 
 
 # Create a non-root user to run the application
 RUN adduser --disabled-password --gecos "" appuser
