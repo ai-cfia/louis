@@ -13,6 +13,7 @@ RUN mkdir -p /app/mcp-server
 COPY gpt-researcher/mcp-server/* /app/mcp-server/
 COPY deployment/mcpo-gptr/uv.lock /app/
 COPY deployment/mcpo-gptr/pyproject.toml /app/
+COPY deployment/mcpo-gptr/start.sh /app/
 # COPY deployment/mcpo-gptr/mcp-server-bing-search /app/
 # COPY deployment/mcpo-gptr/libraries/python/mcp-extensions /app/libraries/python/
 
