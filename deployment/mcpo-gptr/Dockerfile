@@ -17,7 +17,7 @@ COPY deployment/mcpo-gptr/start.sh /app/
 # COPY deployment/mcpo-gptr/mcp-server-bing-search /app/
 # COPY deployment/mcpo-gptr/libraries/python/mcp-extensions /app/libraries/python/
 
-RUN ls -la
+RUN chmod +x /app/start.sh && ls -la
 
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync 
