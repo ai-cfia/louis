@@ -27,6 +27,7 @@ RUN adduser --disabled-password --gecos "" appuser
 RUN chown -R appuser:appuser /app
 USER appuser
 
+RUN ls -la
 # Set working directory to the MCP server directory
 # WORKDIR /app/mcp-server
 
