@@ -6,6 +6,12 @@ WORKDIR /app
 ENV UV_NO_CACHE=1 \
 UV_COMPILE_BYTECODE=1
 
+# Install git and required packages
+RUN apt-get update && \
+    apt-get install -y git curl && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 # Install npx to run stdio clients (npx)
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
 RUN apt-get update && apt-get install -y --no-install-recommends nodejs
