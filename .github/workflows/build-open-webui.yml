@@ -57,7 +57,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: ./open-webui
-          file: ./open-webui/Dockerfile
+          file: Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
