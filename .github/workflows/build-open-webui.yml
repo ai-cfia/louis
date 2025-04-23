@@ -25,7 +25,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          submodules: 'open-webui'
+          submodules: false
+
+      - name: Initialize and update specific submodule
+        run: git submodule update --init open-webui
+
+      - name: Checkout specific submodule branch
+        run: |
+          cd open-webui
+          git fetch
+          git checkout louis-main
+          git pull origin louis-main
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2

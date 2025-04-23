@@ -31,6 +31,13 @@ jobs:
       - name: Initialize and update specific submodule
         run: git submodule update --init gpt-researcher
 
+      - name: Checkout specific submodule branch
+        run: |
+          cd gpt-researcher
+          git fetch
+          git checkout louis-main
+          git pull origin louis-main
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
@@ -47,13 +54,6 @@ jobs:
           cd gpt-researcher
           COMMIT_HASH=$(git rev-parse --short HEAD)
           echo "COMMIT_HASH=$COMMIT_HASH" >> $GITHUB_OUTPUT
-
-      - name: List files in build context for debugging
-        run: |
-          echo "Listing root directory:"
-          ls -la
-          echo "Listing gpt-researcher directory:"
-          ls -la gpt-researcher
 
       - name: Extract metadata for Docker
         id: meta
