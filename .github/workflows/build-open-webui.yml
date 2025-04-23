@@ -46,6 +46,13 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: List files in build context for debugging
+        run: |
+          echo "Listing root directory:"
+          ls -la
+          echo "Listing open-webui directory:"
+          ls -la open-webui
 
       - name: Get submodule commit hash
         id: submodule
