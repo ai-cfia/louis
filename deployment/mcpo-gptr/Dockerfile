@@ -20,7 +20,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends nodejs
 RUN mkdir -p /app/mcp-server
 
 # Copy only the MCP server files
-COPY ./gpt-researcher/mcp-server/* /app/mcp-server/
+COPY ./gpt-researcher/mcp-server/ /app/mcp-server/
 COPY deployment/mcpo-gptr/uv.lock /app/
 COPY deployment/mcpo-gptr/pyproject.toml /app/
 COPY deployment/mcpo-gptr/start.sh /app/
