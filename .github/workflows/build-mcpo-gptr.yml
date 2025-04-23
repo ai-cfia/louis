@@ -26,7 +26,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          submodules: 'gpt-researcher'
+          submodules: false
+
+      - name: Initialize and update specific submodule
+        run: git submodule update --init gpt-researcher
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
