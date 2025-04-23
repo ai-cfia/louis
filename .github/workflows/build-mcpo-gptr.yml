@@ -45,6 +45,13 @@ jobs:
           COMMIT_HASH=$(git rev-parse --short HEAD)
           echo "COMMIT_HASH=$COMMIT_HASH" >> $GITHUB_OUTPUT
 
+      - name: List files in build context for debugging
+        run: |
+          echo "Listing root directory:"
+          ls -la
+          echo "Listing gpt-researcher directory:"
+          ls -la gpt-researcher
+
       - name: Extract metadata for Docker
         id: meta
         uses: docker/metadata-action@v4
