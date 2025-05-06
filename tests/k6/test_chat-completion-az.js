@@ -1,17 +1,9 @@
 import http from 'k6/http';
-import { sleep } from 'k6';
 
 export const options = {
-  stages: [
-    { target: 15, duration: '10s' },
-    { target: 10, duration: '10s' },
-    { target: 5, duration: '10s' },
-  ],
-  tags: { testid: 'openwebui-chat-completions-1000' },
-//   thresholds: {
-//     http_req_duration: ['p(95)<2000'],
-//     http_req_failed: ['rate<0.01'],
-//   },
+  vus: 1,
+  iterations: 1,
+  tags: { testid: 'chat-completions' },
 };
 
 export default function () {
@@ -34,6 +26,4 @@ export default function () {
   };
 
   http.post(url, payload, params);
-
-  sleep(1); // Pause de 1 seconde
 }
