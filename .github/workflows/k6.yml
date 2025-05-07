@@ -1,0 +1,11 @@
+name: K6 load test
+
+on:
+  workflow_call:
+
+jobs:
+  k6:
+    uses: ai-cfia/github-workflows/.github/workflows/workflow-k6.yml@main
+    with:
+      path: ./tests/k6/test_*.js
+    secrets: inherit
