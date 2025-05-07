@@ -2,15 +2,10 @@ name: K6 load test
 
 on:
   workflow_dispatch:
-    inputs:
-      path:
-        required: true
-        type: string
-        default: ./tests/k6/test_*.js
 
 jobs:
   k6:
     uses: ai-cfia/github-workflows/.github/workflows/workflow-k6.yml@main
     with:
-      path: ${{ inputs.path }}
+      path: ./tests/k6/test_*.js
     secrets: inherit
