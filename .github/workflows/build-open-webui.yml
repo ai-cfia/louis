@@ -8,6 +8,12 @@ on:
       - '.gitmodules'
       - '.github/workflows/build-open-webui.yml'
   workflow_dispatch:
+    inputs:
+      commit:
+        description: 'Specific commit hash to checkout'
+        required: false
+        default: ''
+        type: string
 
 env:
   REGISTRY: ghcr.io
@@ -30,12 +36,16 @@ jobs:
       - name: Initialize and update specific submodule
         run: git submodule update --init open-webui
 
-      - name: Checkout specific submodule branch
+      - name: Checkout specific submodule branch or commit
         run: |
           cd open-webui
           git fetch
-          git checkout louis-main
-          git pull origin louis-main
+          if [ -n "${{ github.event.inputs.commit }}" ]; then
+            git checkout ${{ github.event.inputs.commit }}
+          else
+            git checkout louis-main
+            git pull origin louis-main
+          fi
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
