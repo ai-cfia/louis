@@ -7,10 +7,11 @@ on:
       - 'open-webui/**'
       - '.gitmodules'
       - '.github/workflows/build-open-webui.yml'
+      - 'deployment/openwebui/version'
   workflow_dispatch:
     inputs:
       commit:
-        description: 'Specific commit hash to checkout'
+        description: 'Specific commit hash to checkout (overrides version file)'
         required: false
         default: ''
         type: string
@@ -33,6 +34,16 @@ jobs:
         with:
           submodules: false
 
+      - name: Read version file
+        id: version
+        run: |
+          if [ -f "deployment/openwebui/version" ]; then
+            VERSION_COMMIT=$(head -n 1 deployment/openwebui/version | tr -d '\n\r')
+            echo "VERSION_COMMIT=$VERSION_COMMIT" >> $GITHUB_OUTPUT
+          else
+            echo "VERSION_COMMIT=" >> $GITHUB_OUTPUT
+          fi
+
       - name: Initialize and update specific submodule
         run: git submodule update --init open-webui
 
@@ -41,8 +52,13 @@ jobs:
           cd open-webui
           git fetch
           if [ -n "${{ github.event.inputs.commit }}" ]; then
+            # Input commit overrides version file
             git checkout ${{ github.event.inputs.commit }}
+          elif [ -n "${{ steps.version.outputs.VERSION_COMMIT }}" ]; then
+            # Use commit from version file
+            git checkout ${{ steps.version.outputs.VERSION_COMMIT }}
           else
+            # Default to branch
             git checkout louis-main
             git pull origin louis-main
           fi
