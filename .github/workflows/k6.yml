@@ -8,4 +8,5 @@ jobs:
     uses: ai-cfia/github-workflows/.github/workflows/workflow-k6.yml@main
     with:
       path: ./tests/k6/test_*.js
+      OPENWEBUI_API_KEY: ${{ secrets.OPENWEBUI_API_KEY }}
     secrets: inherit
