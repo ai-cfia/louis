@@ -29,7 +29,7 @@ export default function () {
   const params = {
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${__ENV.OPENWEBUI_API_KEY}'
+      'Authorization': `Bearer ${__ENV.OPENWEBUI_API_KEY}`
     }
   };
 
