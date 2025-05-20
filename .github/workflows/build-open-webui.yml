@@ -104,5 +104,7 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            BUILD_HASH=${{ steps.submodule.outputs.COMMIT_HASH }}
           cache-from: type=gha
           cache-to: type=gha,mode=max 
